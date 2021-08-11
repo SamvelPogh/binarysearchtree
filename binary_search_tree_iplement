@@ -1,0 +1,185 @@
+#ifndef BINARY_SEARCH_TREE
+#define BINARY_SEARCH_TREE
+#include <iostream>
+#include <queue>
+using namespace std;
+template <typename T>
+class binary_search_tree
+{
+public:
+	binary_search_tree() {
+		this->root = nullptr;
+	}
+
+	~binary_search_tree() {
+		deletee(root);
+	}
+
+	
+	void __insert(const T& datass) {
+		insert(root, datass);
+	}
+	void __inorder() {
+		inorder(root);
+	}
+	
+	void __preorder() {
+		pre_order(root);
+	}
+	void __posorder() {
+		pos_order(root);
+	}
+
+	void __levelorder() {
+		levelorder(root);
+	}
+
+
+private:
+	template <typename T>
+	class Node {
+	public:
+		Node(T data)
+		 {
+			this->left = nullptr;
+			this->data = data;
+			this->right = nullptr;
+		}
+		Node<T>* left;
+		Node<T>* right;
+		T data;
+	};
+	void deletee(Node<T>* ptr) {
+		if (ptr->left == nullptr && ptr->right == nullptr) {
+			delete ptr;
+			return;
+		}
+		deletee(ptr->left);
+		deletee(ptr->right);
+	}
+	void insert(Node<T>* ptr,const T& data) {
+		if (root == nullptr) {
+			root = new Node<T>(data);
+			return;
+		}
+			if (ptr->left == nullptr) {
+			if (ptr->data > data) {
+				ptr->left= new Node<T>(data);
+				return;
+			}
+		}
+		 if (ptr->right == nullptr) {
+			if (ptr->data < data) {
+				ptr->right = new Node<T>(data);
+				return;
+			}
+		}
+		
+		 if (ptr->data > data) {
+			insert(ptr->left, data);
+		}
+		else if (ptr->data < data) {
+			insert(ptr->right, data);
+		}
+		else {
+			return;
+		}
+	}
+
+	void inorder(Node<T>* head) {
+		if (head == nullptr) {
+			return;
+		}
+		inorder(head->left);
+		cout << head->data;
+		inorder(head->right);
+
+	}
+
+	void pre_order(Node<T>* head) {
+
+		if (head == nullptr) return;
+	
+		cout << head->data;
+		pre_order(head->left);
+		pre_order(head->right);
+	}
+
+	void pos_order(Node<T>* head) {
+		if (head == nullptr) return;
+		pos_order(head->left);
+		pos_order(head->right);
+		cout << head->data;
+		 
+	}
+	
+
+	void levelorder(Node<T>* head) {
+		Node<T>* tmp;
+		if (!head) return;
+		queue<Node<T>*> nod;
+		nod.push(head);
+		while (!nod.empty()) {
+			tmp = nod.front();
+			nod.pop();
+			cout << tmp->data;
+
+			if (tmp->left) 
+				nod.push(tmp->left);
+
+			if (tmp->right) 
+				nod.push(tmp->right);
+		}
+
+	}
+
+
+
+	////stexic nerqev nayel em 
+	//void levelorder(Node<T>* root)
+	//{
+	//	int h = height(root);
+	//	int i;
+	//	for (i = 1; i <= h; i++)
+	//		printCurrentLevel(root, i);
+	//}
+
+	//
+	//void printCurrentLevel(Node<T>* root, int level)
+	//{
+	//	if (root == NULL)
+	//		return;
+	//	if (level == 1)
+	//		cout << root->data ;
+	//	else if (level > 1)
+	//	{
+	//		printCurrentLevel(root->left, level - 1);
+	//		printCurrentLevel(root->right, level - 1);
+	//	}
+	//}
+	//int height(Node<T>* node)
+	//{
+	//	if (node == NULL)
+	//		return 0;
+	//	else
+	//	{
+	//		
+	//		int lheight = height(node->left);
+	//		int rheight = height(node->right);
+
+	//		
+	//		if (lheight > rheight)
+	//		{
+	//			return(lheight + 1);
+	//		}
+	//		else {
+	//			return(rheight + 1);
+	//		}
+	//	}
+	//}
+
+	Node<T>* root;
+
+};
+
+#endif // !BINARY_SEARCH_TREE
